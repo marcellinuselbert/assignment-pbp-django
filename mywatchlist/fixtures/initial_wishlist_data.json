@@ -1,0 +1,123 @@
+[
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 1,
+    "fields": {
+      "watched": true,
+      "title": "Breaking Bad",
+      "rating": 4,
+      "release_date": "2022-09-17",
+      "review": "Breaking bad is a cool series!"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 2,
+    "fields": {
+      "watched": true,
+      "title": "Better Call Saul",
+      "rating": 5,
+      "release_date": "2022-09-17",
+      "review": "This series is a prequel of Breaking Bad"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 3,
+    "fields": {
+      "watched": false,
+      "title": "El Camino: A Breaking Bad Movie",
+      "rating": 4,
+      "release_date": "2022-09-12",
+      "review": "Breaking bad sequel"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 4,
+    "fields": {
+      "watched": true,
+      "title": "Narcos",
+      "rating": 3,
+      "release_date": "2022-09-17",
+      "review": "Narcos is a series based on the Columbian Drug Lord Pablo Escobar and Cali Cartel"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 5,
+    "fields": {
+      "watched": false,
+      "title": "Catch Me If You Can",
+      "rating": 4,
+      "release_date": "2022-09-12",
+      "review": "Good Movie said my friend"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 6,
+    "fields": {
+      "watched": false,
+      "title": "Forrest Gump",
+      "rating": 4,
+      "release_date": "2022-09-17",
+      "review": "Another brilliant movie"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 7,
+    "fields": {
+      "watched": true,
+      "title": "The Shawshank Redemption",
+      "rating": 5,
+      "release_date": "2022-09-17",
+      "review": "This movie is about prison break"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 8,
+    "fields": {
+      "watched": true,
+      "title": "The Green Mile",
+      "rating": 5,
+      "release_date": "2022-09-17",
+      "review": "This movie is about death sentence executor"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 9,
+    "fields": {
+      "watched": true,
+      "title": "Cast Away",
+      "rating": 5,
+      "release_date": "2022-09-17",
+      "review": "A movie about deadly plane crash survivor"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 10,
+    "fields": {
+      "watched": true,
+      "title": "The Terminal",
+      "rating": 4,
+      "release_date": "2022-09-17",
+      "review": "A movie about airport delay and love story"
+    }
+  },
+  {
+    "model": "mywatchlist.mywatchlist",
+    "pk": 11,
+    "fields": {
+      "watched": false,
+      "title": "Naruto",
+      "rating": 4,
+      "release_date": "2022-09-17",
+      "review": "Cool series!"
+    }
+  }
+]
