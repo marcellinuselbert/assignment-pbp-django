@@ -1,0 +1,30 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 98vh;
+}
+
+button {
+  border-radius: 10px;
+  border-width: 0px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.flex-button-container {
+  display: flex;
+  gap: 20px;
+}
+
+.table-border {
+  border: 1px solid;
+}
+
+input[type='checkbox'][disabled][checked] {
+  outline: 3px solid yellowgreen;
+}

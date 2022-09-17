@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="ok">My Watchlist</h1>
+
+<table class="table-border">
+  <tr>
+    <th class="table-border">Watched</th>
+    <th class="table-border">Title</th>
+    <th class="table-border">Rating</th>
+    <th class="table-border">Release Date</th>
+    <th class="table-border">Review</th>
+  </tr>
+  {% for movie in watch_list %}
+  <tr>
+    <td class="table-border" style="text-align: center;">
+      {% if movie.watched %}
+      <input type="checkbox" name="vehicle3" value="Boat" disabled checked />
+      {% else %}
+      <input type="checkbox" name="vehicle3" value="Boat" disabled />
+      {% endif %}
+    </td>
+    <td class="table-border">{{movie.title}}</td>
+    <td class="table-border">{{movie.rating}}</td>
+    <td class="table-border">{{movie.release_date}}</td>
+    <td class="table-border">{{movie.review}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock content %}
