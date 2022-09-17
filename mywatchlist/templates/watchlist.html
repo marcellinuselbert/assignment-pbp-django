@@ -18,10 +18,12 @@
       <input type="checkbox" name="vehicle3" value="Boat" disabled />
       {% endif %}
     </td>
-    <td class="table-border">{{movie.title}}</td>
-    <td class="table-border">{{movie.rating}}</td>
-    <td class="table-border">{{movie.release_date}}</td>
-    <td class="table-border">{{movie.review}}</td>
+    <td class="table-border" style="padding: 10px;">{{movie.title}}</td>
+    <td class="table-border" style="text-align: center;">{{movie.rating}}</td>
+    <td class="table-border" style="padding: 10px;">{{movie.release_date}}</td>
+    <td class="table-border" style="padding: 10px;">
+      {{movie.review}}
+    </td>
   </tr>
   {% endfor %}
 </table>
