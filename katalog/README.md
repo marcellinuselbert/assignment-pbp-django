@@ -1,7 +1,7 @@
 ## Assignment 2
 
 This project is dedicated to Platform Based Development course assignment 2
-<br>Deployed on Heroku [https://marcell-assignment2-pbp.heroku.app](https://marcell-assignment2-pbp.heroku.app).
+<br>Deployed on Heroku [https://marcell-assignment-pbp.herokuapp.com](https://marcell-assignment-pbp.herokuapp.com).
 
 ## Diagram Django Flow
 <img width="1136" alt="Screen Shot 2022-09-10 at 11 45 57" src="https://user-images.githubusercontent.com/51221428/189469316-aceb8dc4-9a23-4c72-9424-6992b9ea74b2.png">
