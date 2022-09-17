@@ -3,6 +3,11 @@
 <div class="center-container">
   <div>
     <h2 class="ok" style="text-align: center;">My Watchlist</h2>
+    {% if is_watching_a_lot %}
+    <h3>Selamat, kamu sudah banyak menonton!</h3>
+    {% else %}
+    <h3>Wah, kamu masih sedikit menonton!</h3>
+    {% endif %}
     <div class="flex-button-container">
       <button onclick="location.href='/mywatchlist/html'">HTML</button>
       <button onclick="location.href='/mywatchlist/xml'">XML</button>
