@@ -1,4 +1,3 @@
-from tkinter import W
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
@@ -10,6 +9,7 @@ def show_watchlist_index(request):
     watched_count = 0
     not_watched_count = 0
     result = False
+
     for movie in watch_list:
         if movie.watched:
             watched_count += 1
