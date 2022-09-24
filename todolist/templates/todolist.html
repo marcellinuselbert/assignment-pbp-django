@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Todolist</title>
+{% endblock meta %} {% block content %}
+
+<div>
+  <h1>Todolist</h1>
+  <button>
+    <a href="{% url 'todolist:show_create_todo' %}">Tambah Task Baru</a>
+  </button>
+  <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
+</div>
+{% if todo %}
+<table class="table-border">
+  <th class="table-border">Created at</th>
+
+  <th class="table-border">Title</th>
+  <th class="table-border">Description</th>
+
+</tr>
+{% for task in todo %}
+<tr>
+  <td class="table-border" style="padding: 10px;">{{task.date}}</td>
+  <td class="table-border" style="padding: 10px;">{{task.title}}</td>
+  <td class="table-border" style="text-align: center;">{{task.description}}</td>
+
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<div></div>
+{% endif %}
+
+
+{% endblock content %}
