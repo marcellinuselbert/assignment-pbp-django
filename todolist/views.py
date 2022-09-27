@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponse,HttpResponseRedirect
 from django.core import serializers
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
@@ -15,8 +15,6 @@ def show_todolist(request):
     data_todo = TodoListEntry.objects.filter(user=request.user)
     context = {
     'todo': data_todo,
-    # 'nama': 'Marcellinus Elbert',
-    # 'last_login': request.COOKIES['last_login'],
     }
     return render(request, "todolist.html",context=context)
 
@@ -60,9 +58,23 @@ def show_create_todo(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        todo = TodoListEntry.objects.create(title=title, description=description,date=datetime.date.today(), user=request.user)
+        todo = TodoListEntry.objects.create(title=title, description=description,date=datetime.date.today(), is_finisihed=False, user=request.user)
         response = HttpResponseRedirect(reverse("todolist:show_todolist")) 
         return response
 
     return render(request, "create.html")
 
+def update_finished(request,id):
+
+    task = get_object_or_404(TodoListEntry, id = id)
+    task.is_finished = not task.is_finished
+    task.save()
+
+    return redirect('todolist:show_todolist')
+
+def delete_todo(request,id):
+
+    task = get_object_or_404(TodoListEntry, id = id)
+    task.delete()
+
+    return redirect('todolist:show_todolist')

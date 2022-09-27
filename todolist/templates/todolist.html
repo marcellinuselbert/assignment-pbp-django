@@ -4,6 +4,8 @@
 
 <div>
   <h1>Todolist</h1>
+  {% if user.is_authenticated %}
+  <h1>Hello! {{user.get_username}}</h1> 
   <button>
     <a href="{% url 'todolist:show_create_todo' %}">Tambah Task Baru</a>
   </button>
@@ -15,6 +17,7 @@
 
   <th class="table-border">Title</th>
   <th class="table-border">Description</th>
+  <th class="table-border">Status</th>
 
 </tr>
 {% for task in todo %}
@@ -23,11 +26,24 @@
   <td class="table-border" style="padding: 10px;">{{task.title}}</td>
   <td class="table-border" style="text-align: center;">{{task.description}}</td>
 
+  <td class="table-border" style="text-align: center;">{% if task.is_finished %} Selesai {% else %} Belum Selesai {% endif %}</td>
+
+
+  <td class="table-border" style="text-align: center;">
+    {% if task.is_finished %}
+    <input type="checkbox" onclick="location.href=`{% url 'todolist:update' task.id %}`" checked/>
+        {% else %}
+        <input type="checkbox" onclick="location.href=`{% url 'todolist:update' task.id %}`"/>
+        {% endif %}
+  </td>
+  <td class="table-border" style="text-align: center;"><a href="{% url 'todolist:delete' task.id %}">Delete</a></td>
+
 </tr>
 {% endfor %}
 </table>
 {% else %}
 <div></div>
+{% endif %}
 {% endif %}
 
 
