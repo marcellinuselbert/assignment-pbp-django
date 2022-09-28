@@ -58,7 +58,7 @@ def show_create_todo(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        todo = TodoListEntry.objects.create(title=title, description=description,date=datetime.date.today(), is_finisihed=False, user=request.user)
+        todo = TodoListEntry.objects.create(title=title, description=description,date=datetime.date.today(), is_finished=False, user=request.user)
         response = HttpResponseRedirect(reverse("todolist:show_todolist")) 
         return response
 
