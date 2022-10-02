@@ -3,50 +3,65 @@
 {% endblock meta %} {% block content %}
 
 <div class="login">
-  <h1>Login</h1>
+  <div class="flex justify-center mt-[15%]">
+    <div>
+      <div class="text-4xl font-bold text-slate-400">Log in</div>
+      <div class="lg:w-64 mt-3">
+        <form method="POST" action="">
+          {% csrf_token %}
+          <div>
+            <label class="block">
+              <span
+                class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-500"
+              >
+                Username
+              </span>
+              <input
+                type="text"
+                name="username"
+                class="mt-1 px-3 py-2 bg-[#2d3748] border shadow-sm border-slate-600 placeholder-slate-400 focus:outline-none focus:border-[#4a9ebd] focus:ring-[#4a9ebd] block w-full rounded-md sm:text-sm focus:ring-1 text-slate-300"
+                placeholder="Username"
+              />
+            </label>
 
-  <form method="POST" action="">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>Username:</td>
-        <td>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            class="form-control"
-          />
-        </td>
-      </tr>
-
-      <tr>
-        <td>Password:</td>
-        <td>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            class="form-control"
-          />
-        </td>
-      </tr>
-
-      <tr>
-        <td></td>
-        <td><input class="btn login_btn" type="submit" value="Login" /></td>
-      </tr>
-    </table>
-  </form>
-
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %} Belum mempunyai akun?
-  <a href="{% url 'todolist:register' %}">Buat Akun</a>
+            <label class="block mt-3">
+              <span
+                class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-500"
+              >
+                Password
+              </span>
+              <input
+                type="password"
+                name="password"
+                class="mt-1 px-3 py-2 bg-[#2d3748] border shadow-sm border-slate-600 placeholder-slate-400 focus:outline-none focus:border-[#4a9ebd] focus:ring-[#4a9ebd] block w-full rounded-md sm:text-sm focus:ring-1 text-slate-300"
+                placeholder="Password"
+              />
+            </label>
+            {% if messages %} {% for message in messages %}
+            <p class="mt-2 text-red-500 text-sm">
+              {{message}}
+            </p>
+            {% endfor %} {% endif %}
+          </div>
+          <button
+            type="submit"
+            class="rouned-lg bg-[#4a9ebd] w-full h-10 text-slate-300 mt-4 font-bold"
+          >
+            Log in
+          </button>
+        </form>
+        <div class="mt-4 text-center text-slate-400">
+          No account yet?
+          <a
+            href="{% url 'todolist:register' %}"
+            class="underline underline-offset-2"
+          >
+            Sign up
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

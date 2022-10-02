@@ -1,5 +1,5 @@
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .center-container {
@@ -24,6 +24,10 @@ button {
 
 .table-border {
   border: 1px solid;
+}
+
+input[type='text'] {
+  border: 5px solid salmon;
 }
 
 input[type='checkbox'][disabled][checked] {
