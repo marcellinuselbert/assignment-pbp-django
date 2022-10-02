@@ -1,48 +1,80 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Todolist</title>
 {% endblock meta %} {% block content %}
-
-<div>
-  <h1>Todolist</h1>
   {% if user.is_authenticated %}
-  <h1>Hello! {{user.get_username}}</h1> 
-  <button>
-    <a href="{% url 'todolist:show_create_todo' %}">Tambah Task Baru</a>
-  </button>
-  <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
-</div>
-{% if todo %}
-<table class="table-border">
-  <th class="table-border">Created at</th>
+<div class="mx-8 md:mx-14 lg:mx-14 mt-14">
+  <div class="flex justify-between">
+     <div class="font-bold text-slate-400 text-3xl md:text-4xl lg:text-5xl">Todolist</div>   
+     <div class="flex gap-2 lg:gap-5 " >
+      <button class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3]  hidden sm:block">
+        <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a>
+      </button>
+      <button class="bg-gradient-to-br from-[#da4453] to-[#89216b] px-3 py-1 text-slate-200 "><a href="{% url 'todolist:logout' %}  ">Log out</a></button>
 
-  <th class="table-border">Title</th>
-  <th class="table-border">Description</th>
-  <th class="table-border">Status</th>
+    </div>
+  </div>
+ 
 
-</tr>
+  <div class="text-slate-200 capitalize mt-2 ml-2">Hello! {{user.get_username}}</div> 
+
+<div class="mt-2"> <button class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3]  block sm:hidden">
+        <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a>
+      </button></div>
+
+
+
+
+
+
+
+<div class="grid lg:grid-cols-4 md:grid-cols-3 gap-5 mt-8 sm:mt-5">
+  {% if todo %}
 {% for task in todo %}
-<tr>
-  <td class="table-border" style="padding: 10px;">{{task.date}}</td>
-  <td class="table-border" style="padding: 10px;">{{task.title}}</td>
-  <td class="table-border" style="text-align: center;">{{task.description}}</td>
+{% if task.is_finished %}
+  <div class="rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br from-[#11998e] to-[#38ef7d] text-slate-100 ">
+{% else %}
+<div class="rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br from-[#ffe000] to-[#799f0c] text-slate-100 ">
 
-  <td class="table-border" style="text-align: center;">{% if task.is_finished %} Selesai {% else %} Belum Selesai {% endif %}</td>
+{% endif %}
+    <div class="flex justify-between"> 
+      <div class="text-2xl font-bold">
+      {{task.title}}
+    </div>
+    <div class="flex gap-4">
+      <div onclick="location.href=`{% url 'todolist:delete' task.id %}`" class="cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+        </svg>
+        
+      </div>
+      <div onclick="location.href=`{% url 'todolist:update' task.id %}`" class="cursor-pointer" >
+      {% if task.is_finished %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+      {% else %}
 
+      <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+      {% endif %}
+    </div>
+   
+    </div>
+    
+    </div>
+    <div class="text-sm">{{task.date}}</div>
+    <div class="text-md mt-2">
+     {{task.description}}
+    </div>
 
-  <td class="table-border" style="text-align: center;">
-    {% if task.is_finished %}
-    <input type="checkbox" onclick="location.href=`{% url 'todolist:update' task.id %}`" checked/>
-        {% else %}
-        <input type="checkbox" onclick="location.href=`{% url 'todolist:update' task.id %}`"/>
-        {% endif %}
-  </td>
-  <td class="table-border" style="text-align: center;"><a href="{% url 'todolist:delete' task.id %}">Delete</a></td>
+  </div>
 
-</tr>
-{% endfor %}
+{% endfor %}</div>
+</div>
 </table>
 {% else %}
-<div></div>
+<div></div></div>
 {% endif %}
 {% endif %}
 

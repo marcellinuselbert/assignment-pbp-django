@@ -1,38 +1,50 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Todolist</title>
 {% endblock meta %} {% block content %}
+<div class="flex justify-center mt-[15%]">
+  <div>
+    <div class="text-4xl font-bold text-slate-400 text-center">Add Task</div>
+    <div class="lg:w-64 mt-3">
+      <form method="POST" action="">
+        {% csrf_token %}
 
-<form method="POST" action="">
-  {% csrf_token %}
-  <table>
-    <tr>
-      <td>Judul:</td>
-      <td>
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          class="form-control"
-        />
-      </td>
-    </tr>
+        <label class="block">
+          <span
+            class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-500"
+          >
+            Title
+          </span>
+          <input
+            type="text"
+            name="title"
+            class="mt-1 px-3 py-2 bg-[#2d3748] border shadow-sm border-slate-600 placeholder-slate-400 focus:outline-none focus:border-[#4a9ebd] focus:ring-[#4a9ebd] block w-full rounded-md sm:text-sm focus:ring-1 text-slate-300"
+            placeholder="Title"
+            required
+          />
+        </label>
 
-    <tr>
-      <td>Deskripsi:</td>
-      <td>
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          class="form-control"
-        />
-      </td>
-    </tr>
-
-    <tr>
-      <td></td>
-      <td><input class="btn submit_btn" type="submit" value="Submit" /></td>
-    </tr>
-  </table>
-</form>
+        <label class="block mt-2">
+          <span
+            class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-500"
+          >
+            Description
+          </span>
+          <input
+            type="text"
+            name="description"
+            class="mt-1 px-3 py-2 bg-[#2d3748] border shadow-sm border-slate-600 placeholder-slate-400 focus:outline-none focus:border-[#4a9ebd] focus:ring-[#4a9ebd] block w-full rounded-md sm:text-sm focus:ring-1 text-slate-300"
+            placeholder="Description"
+            required
+          />
+        </label>
+        <button
+          type="submit"
+          class="rouned-lg bg-gradient-to-br from-[#0cebeb] via-[#20e3b2] to-[#29ffc6] w-full h-10 text-slate-100 mt-4 font-bold"
+        >
+          Add
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock content %}

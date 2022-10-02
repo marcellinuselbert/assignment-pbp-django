@@ -5,8 +5,8 @@
 <div class="login">
   <div class="flex justify-center mt-[15%]">
     <div>
-      <div class="text-4xl font-bold text-slate-400">Log in</div>
-      <div class="lg:w-64 mt-3">
+      <div class="text-4xl font-bold text-slate-400 text-center">Log in</div>
+      <div class="lg:w-64 mt-6">
         <form method="POST" action="">
           {% csrf_token %}
           <div>
@@ -40,7 +40,7 @@
 
             {% if messages %}
              {% for message in messages %} 
-             {% if message.tags == 20 %}
+             {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
             <p class="mt-2 text-red-500 text-sm">
               {{message}}
             </p>
@@ -54,7 +54,7 @@
           </div>
           <button
             type="submit"
-            class="rouned-lg bg-[#4a9ebd] w-full h-10 text-slate-300 mt-4 font-bold"
+            class="rouned-lg bg-gradient-to-br from-[#0cebeb] via-[#20e3b2] to-[#29ffc6] w-full h-10 text-slate-100 mt-4 font-bold"
           >
             Log in
           </button>
