@@ -6,13 +6,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
     $(document).ready(function () {
-      const card = (data) => {
-        return $('#todo').append(`
-          <div class='rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br ${
-            data.fields.is_finished
-              ? 'from-[#11998e] to-[#38ef7d]'
-              : 'from-[#ffe000] to-[#799f0c]'
-          } text-slate-100 hover:scale-105 transition duration-300 ease-in-out'>
+      const card = (data) => `
+          <div id='${
+            data.pk
+          }-card' class='rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br ${
+        data.fields.is_finished
+          ? 'from-[#11998e] to-[#38ef7d]'
+          : 'from-[#ffe000] to-[#799f0c]'
+      } text-slate-100 hover:scale-105 transition duration-300 ease-in-out'>
 
           <div class="flex justify-between">
           <div class="text-2xl font-bold">
@@ -20,8 +21,8 @@
           </div>
           <div class="flex gap-4">
             <div
-              onclick="location.href='/todolist/${data.pk}/delete'"
-              class="cursor-pointer"
+              id=${data.pk}
+              class="cursor-pointer remove-todo ${data.pk}"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -82,24 +83,43 @@
           ${data.fields.description}
         </div>
       </div>
-      `)
+      `
+      const addCard = (data) => {
+        return $('#todo').append(card(data))
       }
-      $.get('http://localhost:8000/todolist/json', function (todo) {
-        todo.map((task) => card(task))
+
+      const removeCard = (task) => {
+        $(`#${task.pk}`).click(function () {
+          $.ajax({
+            url: `/todolist/delete/${task.pk}`,
+            type: 'DELETE',
+            success: function (response) {
+              $(`#${task.pk}-card`).remove()
+            },
+          })
+        })
+      }
+
+      $.get('/todolist/json', function (todo) {
+        todo.map((task) => {
+          addCard(task)
+          removeCard(task)
+        })
       })
 
       $('#add-todo').click(function () {
         $.post(
-          'http://localhost:8000/todolist/add/',
+          '/todolist/add/',
           {
             title: $('#title').val(),
             description: $('#description').val(),
           },
           function (res, status) {
             if (status == 'success') {
-              card(res)
+              addCard(res)
               $('#title').val('')
               $('#description').val('')
+              removeCard(res)
             }
           },
         )

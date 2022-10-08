@@ -107,3 +107,11 @@ def add_todo(request):
 
 
         return JsonResponse(result)
+
+@csrf_exempt
+def delete_task(request,id):
+    if request.method == "DELETE":
+        task = get_object_or_404(TodoListEntry, id = id)
+        task.delete()
+
+    return HttpResponse(status=202)
