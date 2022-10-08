@@ -1,54 +1,26 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Todolist</title>
-{% endblock meta %} {% block content %} {% if user.is_authenticated %}
-<div class="mx-8 md:mx-14 lg:mx-14 mt-14">
-  <div class="flex justify-between">
-    <div class="font-bold text-slate-400 text-3xl md:text-4xl lg:text-5xl">
-      Todolist
-    </div>
-    <div class="flex gap-2 lg:gap-5">
-      <button
-        class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] hidden sm:block"
-      >
-        <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a>
-      </button>
-      <button
-        class="bg-gradient-to-br from-[#da4453] to-[#89216b] px-3 py-1 text-slate-200"
-      >
-        <a href="{% url 'todolist:logout' %}  ">Log out</a>
-      </button>
-    </div>
-  </div>
+{% endblock meta %} {% block content %}
 
-  <div class="text-slate-200 mt-2 ml-2">
-    Hello! {{user.get_username}}
-  </div>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const card = (data) => {
+        return $('#todo').append(`
+          <div class='rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br ${
+            data.fields.is_finished
+              ? 'from-[#11998e] to-[#38ef7d]'
+              : 'from-[#ffe000] to-[#799f0c]'
+          } text-slate-100 hover:scale-105 transition duration-300 ease-in-out'>
 
-  <div class="mt-2">
-    <button
-      class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] block sm:hidden"
-    >
-      <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a>
-    </button>
-  </div>
-
-  <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-5 mt-8 sm:mt-5">
-    {% if todo %} {% for task in todo %} {% if task.is_finished %}
-    <div
-      class="rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br from-[#11998e] to-[#38ef7d] text-slate-100 hover:scale-105 transition duration-300 ease-in-out"
-    >
-      {% else %}
-      <div
-        class="rounded-3xl pl-10 pr-6 py-5 bg-gradient-to-br from-[#ffe000] to-[#799f0c] text-slate-100 hover:scale-105 transition duration-300 ease-in-out"
-      >
-        {% endif %}
-        <div class="flex justify-between">
+          <div class="flex justify-between">
           <div class="text-2xl font-bold">
-            {{task.title}}
+            ${data.fields.title}
           </div>
           <div class="flex gap-4">
             <div
-              onclick="location.href=`{% url 'todolist:delete' task.id %}`"
+              onclick="location.href='/todolist/${data.pk}/delete'"
               class="cursor-pointer"
             >
               <svg
@@ -67,55 +39,202 @@
               </svg>
             </div>
             <div
-              onclick="location.href=`{% url 'todolist:update' task.id %}`"
+              onclick="location.href='/todolist/${data.pk}/update'"
               class="cursor-pointer"
             >
-              {% if task.is_finished %}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-              {% else %}
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 12.75l6 6 9-13.5"
-                />
-              </svg>
-              {% endif %}
+              ${
+                data.fields.is_finished
+                  ? `
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>`
+                  : `<svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>`
+              }
             </div>
           </div>
         </div>
-        <div class="text-sm">{{task.date}}</div>
+        <div class="text-sm">${data.fields.date}</div>
         <div class="text-md mt-2">
-          {{task.description}}
+          ${data.fields.description}
         </div>
       </div>
+      `)
+      }
+      $.get('http://localhost:8000/todolist/json', function (todo) {
+        todo.map((task) => card(task))
+      })
 
-      {% endfor %}
+      $('#add-todo').click(function () {
+        $.post(
+          'http://localhost:8000/todolist/add/',
+          {
+            title: $('#title').val(),
+            description: $('#description').val(),
+          },
+          function (res, status) {
+            if (status == 'success') {
+              card(res)
+              $('#title').val('')
+              $('#description').val('')
+            }
+          },
+        )
+      })
+    })
+  </script>
+</head>
+
+{% if user.is_authenticated %}
+<div class="mx-8 md:mx-14 lg:mx-14 mt-14">
+  <div class="flex justify-between">
+    <div class="font-bold text-slate-400 text-3xl md:text-4xl lg:text-5xl">
+      Todolist
+    </div>
+    <div class="flex gap-2 lg:gap-5">
+      <button
+        class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] hidden sm:block rounded-lg"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Add Todo
+        <!-- <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a> -->
+      </button>
+      <button
+        class="bg-gradient-to-br from-[#da4453] to-[#89216b] px-3 py-1 text-slate-200 rounded-lg"
+      >
+        <a href="{% url 'todolist:logout' %}  ">Log out</a>
+      </button>
     </div>
   </div>
+
+  <div class="text-slate-200 mt-2 ml-2">
+    Hello! {{user.get_username}}
+  </div>
+
+  <div class="mt-2">
+    <button
+      class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] block sm:hidden rounded-lg"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      Add Todo
+      <!-- <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a> -->
+    </button>
+  </div>
+
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content bg-[#2d3748]">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-slate-200" id="exampleModalLabel">
+            Add Todo
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="flex justify-center">
+            <div class="lg:w-64 mt-3">
+              <form method="POST" action="">
+                {% csrf_token %}
+
+                <label class="block">
+                  <span
+                    class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-500"
+                  >
+                    Title
+                  </span>
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="mt-1 px-3 py-2 bg-[#2d3748] border shadow-sm border-slate-600 placeholder-slate-400 focus:outline-none focus:border-[#4a9ebd] focus:ring-[#4a9ebd] block w-full rounded-md sm:text-sm focus:ring-1 text-slate-300"
+                    placeholder="Title"
+                    required
+                  />
+                </label>
+
+                <label class="block mt-2">
+                  <span
+                    class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-500"
+                  >
+                    Description
+                  </span>
+                  <input
+                    type="text"
+                    name="description"
+                    id="description"
+                    class="mt-1 px-3 py-2 bg-[#2d3748] border shadow-sm border-slate-600 placeholder-slate-400 focus:outline-none focus:border-[#4a9ebd] focus:ring-[#4a9ebd] block w-full rounded-md sm:text-sm focus:ring-1 text-slate-300"
+                    placeholder="Description"
+                    required
+                  />
+                </label>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="bg-gradient-to-br from-[#da4453] to-[#89216b] px-3 py-2 text-slate-200 rounded-lg h-auto"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+
+          <button
+            id="add-todo"
+            type="button"
+            class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] rounded-lg"
+            data-bs-dismiss="modal"
+          >
+            Add Todo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="grid lg:grid-cols-4 md:grid-cols-3 gap-5 mt-8 sm:mt-5"
+    id="todo"
+  ></div>
 
   {% else %}
   <div></div>
 </div>
-{% endif %} {% endif %} {% endblock content %}
+{% endif %} {% endblock content %}
