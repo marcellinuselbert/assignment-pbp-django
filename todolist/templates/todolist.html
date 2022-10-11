@@ -108,21 +108,23 @@
       })
 
       $('#add-todo').click(function () {
-        $.post(
-          '/todolist/add/',
-          {
-            title: $('#title').val(),
-            description: $('#description').val(),
-          },
-          function (res, status) {
-            if (status == 'success') {
-              addCard(res)
-              $('#title').val('')
-              $('#description').val('')
-              removeCard(res)
-            }
-          },
-        )
+        if ($('#title').val() && $('#description').val()) {
+          $.post(
+            '/todolist/add/',
+            {
+              title: $('#title').val(),
+              description: $('#description').val(),
+            },
+            function (res, status) {
+              if (status == 'success') {
+                addCard(res)
+                $('#title').val('')
+                $('#description').val('')
+                removeCard(res)
+              }
+            },
+          )
+        }
       })
     })
   </script>
@@ -141,7 +143,6 @@
         data-bs-target="#exampleModal"
       >
         Add Todo
-        <!-- <a href="{% url 'todolist:show_create_todo' %}">Add Todo</a> -->
       </button>
       <button
         class="bg-gradient-to-br from-[#da4453] to-[#89216b] px-3 py-1 text-slate-200 rounded-lg"
@@ -239,7 +240,7 @@
           <button
             id="add-todo"
             type="button"
-            class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] rounded-lg"
+            class="px-3 py-2 text-slate-100 bg-gradient-to-br from-[#348f50] to-[#56b4d3] rounded-lg disabled:opacity-40"
             data-bs-dismiss="modal"
           >
             Add Todo
